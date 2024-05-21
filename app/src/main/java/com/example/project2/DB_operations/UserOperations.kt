@@ -1,8 +1,7 @@
 package com.example.project2.DB_operations
 
 import com.example.project2.DAO.UserDAO
-import com.example.project2.dto.CreateUserDto
-import com.example.project2.dto.GetUserDto
+import com.example.project2.dto.user.CreateUserDto
 import com.example.project2.setupConnection
 import com.mongodb.MongoException
 import org.slf4j.LoggerFactory

@@ -1,4 +1,4 @@
-package com.example.project2.dto
+package com.example.project2.dto.user
 
 import org.bson.codecs.pojo.annotations.BsonProperty
 
