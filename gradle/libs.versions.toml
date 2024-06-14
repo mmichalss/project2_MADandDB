@@ -27,6 +27,3 @@ transport-runtime = { group = "com.google.android.datatransport", name = "transp
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 jetbrainsKotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-realmKotlin = { id = "io.realm.kotlin", version = "1.11.0" }
-kptKotlin = { id = "org.jetbrains.kotlin.kapt", version = "2.0.0"}
-hiltGoogle = { id = "com.google.dagger.hilt.android", version = "2.44"}
