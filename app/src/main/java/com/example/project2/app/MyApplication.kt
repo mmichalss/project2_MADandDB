@@ -10,12 +10,11 @@ class MyApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        Realm.init(this) // Initialize Realm
+        // Initialize Realm App
+        app = App.create(AppConfiguration.Builder("your-app-id").build())\
 
-        app = App.create(AppConfiguration.Builder("your-app-id").build())
-
-        // Optional: Setup default configuration
-        val config = RealmConfiguration.Builder(schema = setOf(User::class))
+        // Initialize Realm
+        val config = RealmConfiguration.Builder(setOf(User::class))
             .name("default.realm")
             .schemaVersion(1)
             .build()

@@ -3,4 +3,6 @@ plugins {
     alias(libs.plugins.androidApplication) apply false
     alias(libs.plugins.jetbrainsKotlinAndroid) apply false
     alias(libs.plugins.realmKotlin) apply false
+    alias(libs.plugins.kptKotlin) apply false
+    alias(libs.plugins.hiltGoogle) apply false
 }

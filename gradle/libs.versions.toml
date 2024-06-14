@@ -9,6 +9,7 @@ appcompat = "1.6.1"
 material = "1.11.0"
 activity = "1.8.0"
 constraintlayout = "2.1.4"
+transportRuntime = "3.3.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -21,9 +22,11 @@ androidx-activity = { group = "androidx.activity", name = "activity", version.re
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 realmBase = { module = "io.realm.kotlin:library-base", version = "1.11.0" }
 realmSync = { module = "io.realm.kotlin:library-sync", version = "1.11.0" }
+transport-runtime = { group = "com.google.android.datatransport", name = "transport-runtime", version.ref = "transportRuntime" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 jetbrainsKotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 realmKotlin = { id = "io.realm.kotlin", version = "1.11.0" }
-
+kptKotlin = { id = "org.jetbrains.kotlin.kapt", version = "2.0.0"}
+hiltGoogle = { id = "com.google.dagger.hilt.android", version = "2.44"}

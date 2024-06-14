@@ -4,6 +4,9 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
     alias(libs.plugins.realmKotlin)
+    alias(libs.plugins.kptKotlin)
+    alias(libs.plugins.hiltGoogle)
+
 }
 
 android {
@@ -55,6 +58,7 @@ android {
 
 dependencies {
 
+    implementation(libs.transport.runtime)
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.3")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
@@ -79,8 +83,14 @@ dependencies {
 
     implementation("org.apache.logging.log4j:log4j-slf4j-impl:2.17.1")
 
-    implementation("io.realm:realm-gradle-plugin:10.6.0") // Ensure to use the latest version
+    implementation("io.realm:realm-gradle-plugin:10.4.0") // Ensure to use the latest version
     implementation("androidx.appcompat:appcompat:1.6.1")
+
+    implementation("com.google.dagger:hilt-android:2.44.2")
+    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.21")
+    implementation("com.google.dagger:hilt-android-gradle-plugin:2.38.1")
+    implementation("com.google.dagger:hilt-compiler:2.44.2")
+    implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
 
 }
 
