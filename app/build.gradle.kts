@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    alias(libs.plugins.realmKotlin)
 }
 
 android {
@@ -63,6 +64,11 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    implementation(libs.realmBase)
+    implementation(libs.realmSync)
+
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.8.0")
     // Kotlin coroutine dependency
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactive:1.6.4")
@@ -72,6 +78,10 @@ dependencies {
     implementation("io.projectreactor:reactor-core:3.4.15")
 
     implementation("org.apache.logging.log4j:log4j-slf4j-impl:2.17.1")
+
+    implementation("io.realm:realm-gradle-plugin:10.6.0") // Ensure to use the latest version
+    implementation("androidx.appcompat:appcompat:1.6.1")
+
 }
 
 tasks.withType<KotlinCompile> {

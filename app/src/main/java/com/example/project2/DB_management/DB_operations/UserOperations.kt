@@ -6,7 +6,9 @@ import com.example.project2.DB_management.dto.user.GetUserDto
 import com.example.project2.DB_management.setupConnection
 import com.mongodb.MongoException
 import com.mongodb.client.model.Filters
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.toList
+import kotlinx.coroutines.runBlocking
 import org.slf4j.LoggerFactory
 
 class UserOperations: UserDAO {
@@ -27,13 +29,14 @@ class UserOperations: UserDAO {
     override suspend fun findAllUserDtos(): List<GetUserDto>? {
 
         val logger = LoggerFactory.getLogger(UserOperations::class.java)
-        return try{
-            val userList: MutableList<GetUserDto> = mutableListOf()
+        return try {
             val db = setupConnection()
-            val emptyFilter = Filters.empty()
             val collection = db?.getCollection<GetUserDto>(collectionName = "user")
-            val list = collection?.withDocumentClass<GetUserDto>()?.find(emptyFilter)?.toList()
-            list
+            var list: List<GetUserDto>?
+            runBlocking{
+            list = collection?.find<GetUserDto>()?.toList()
+            }
+            list ?: emptyList()
         } catch(e: MongoException){
             logger.error("Error retrieving users", e)
             emptyList()

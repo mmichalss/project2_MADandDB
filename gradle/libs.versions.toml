@@ -19,8 +19,11 @@ androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
+realmBase = { module = "io.realm.kotlin:library-base", version = "1.11.0" }
+realmSync = { module = "io.realm.kotlin:library-sync", version = "1.11.0" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 jetbrainsKotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+realmKotlin = { id = "io.realm.kotlin", version = "1.11.0" }
 

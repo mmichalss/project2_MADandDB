@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">project2</string>
+    <string name="test1_title">IMAGE RECOGNITION TEST</string>
+    <string name="start">START</string>
 </resources>
