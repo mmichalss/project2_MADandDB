@@ -6,8 +6,9 @@ import org.bson.codecs.pojo.annotations.BsonProperty
 import org.bson.types.ObjectId
 
 data class ResultCollection(
-    @BsonId val id: ObjectId,
-    @BsonProperty("test_id") val testId: ObjectId,
-    @BsonProperty("user_id") val userID: ObjectId,
-    @BsonProperty("result_value") val resultValue: ResultValue
+    val id: Long,
+    val testId: Long,
+    val userId: Long,
+    val resultValue: ResultValue,
+    val timeSpent: Int
 )

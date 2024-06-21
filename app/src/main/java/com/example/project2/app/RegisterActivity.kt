@@ -6,7 +6,6 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.example.project2.DB_management.DB_operations.UserOperations
 import com.example.project2.DB_management.dto.user.CreateUserDto
 import com.example.project2.R
 import kotlinx.coroutines.runBlocking
@@ -33,9 +32,6 @@ class RegisterActivity : AppCompatActivity() {
 
     private suspend fun logInUser(){
         print("Testing insertUserDto()")
-        val userOperations = UserOperations()
         val newUser = CreateUserDto("user", "password")
-        val result = userOperations.insertUserDto(newUser)
-        print("Insertion was successful: $result")
     }
 }

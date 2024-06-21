@@ -15,13 +15,14 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.example.project2.DB_management.DB_operations.UserOperations
-import com.example.project2.DB_management.dto.user.CreateUserDto
+import com.example.project2.DB_management.DbClient
 import com.example.project2.R
 import java.util.Locale
 import kotlin.random.Random
 
 class Test1Activity : AppCompatActivity() {
+    private var layoutOpenTime: Long = 0
+    private var timeElapsed: Long = 0
     private var speechRecognizer: SpeechRecognizer? = null
     private var micButton: ImageView? = null
     private var pictureIMGV: ImageView? = null
@@ -110,6 +111,15 @@ class Test1Activity : AppCompatActivity() {
             false
         }
     }
+    override fun onStart() {
+        super.onStart()
+        // Start measuring time in onStart, as the layout is visible
+        layoutOpenTime = System.currentTimeMillis()
+    }
+    override fun onStop() {
+        super.onStop()
+        timeElapsed = System.currentTimeMillis() - layoutOpenTime
+    }
 
     override fun onDestroy(){
         super.onDestroy()
@@ -167,6 +177,7 @@ class Test1Activity : AppCompatActivity() {
     }
     private fun goToTest1ResultsActivity(){
         val intent = Intent(this, Test1ResultsActivity::class.java)
+        intent.putExtra("timeSpent", timeElapsed)
         startActivity(intent)
     }
 }

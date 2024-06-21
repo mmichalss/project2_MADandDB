@@ -20,6 +20,7 @@ class Test1HomeActivity : AppCompatActivity() {
             insets
         }
 
+
         val startButton = findViewById<Button>(R.id.startBTN)
 
         startButton.setOnClickListener {

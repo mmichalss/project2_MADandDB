@@ -6,8 +6,8 @@ import org.bson.codecs.pojo.annotations.BsonProperty
 import org.bson.types.ObjectId
 
 data class GetTestDto(
-    @BsonId val id: ObjectId = ObjectId(),
-    @BsonProperty("testType") val testType: TestType = TestType.TEST1,
-    @BsonProperty("testTarget") val testTarget: String = "",
-    @BsonProperty("description") val description: String = ""
+    var id: String = "",
+    val testType: TestType = TestType.TEST1,
+    val testTarget: String = "",
+    val description: String = ""
 )
