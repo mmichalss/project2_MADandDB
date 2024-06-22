@@ -17,15 +17,16 @@
 
     <GridLayout
         android:id="@+id/card_grid"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="380dp"
+        android:layout_height="597dp"
         android:layout_below="@id/start_button"
+        android:layout_alignParentBottom="true"
         android:layout_marginTop="16dp"
+        android:layout_marginBottom="49dp"
         android:columnCount="4"
-        android:rowCount="5"
         android:orientation="horizontal"
-        android:padding="16dp">
-    </GridLayout>
+        android:padding="16dp"
+        android:rowCount="5"></GridLayout>
 
     <TextView
         android:id="@+id/textTime"
@@ -58,5 +59,19 @@
         android:layout_marginEnd="19dp"
         android:layout_marginBottom="652dp"
         android:src="@drawable/cards" />
+
+    <Button
+        android:id="@+id/mainmenureturn"
+        android:layout_width="262dp"
+        android:layout_height="53dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="662dp"
+        android:layout_marginBottom="0dp"
+        android:backgroundTint="#0A5F0D"
+        android:text="Main menu" />
+
 
 </RelativeLayout>

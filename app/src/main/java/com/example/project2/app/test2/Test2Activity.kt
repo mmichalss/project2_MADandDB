@@ -1,23 +1,25 @@
 package com.example.project2.app.test2
 
 import android.app.AlertDialog
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.widget.Button
 import android.widget.GridLayout
 import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.project2.R
+import com.example.project2.app.MainPage
 
 class Test2Activity : AppCompatActivity() {
-
     private lateinit var startButton: Button
     private lateinit var cardGrid: GridLayout
     private lateinit var stopwatchText: TextView
     private lateinit var moveCounterText: TextView
-    private var level = 1
+
     private var cards: MutableList<Int> = mutableListOf()
     private var revealedCards: MutableList<ImageButton> = mutableListOf()
     private var cardImages: MutableList<Int> = mutableListOf(
@@ -28,6 +30,8 @@ class Test2Activity : AppCompatActivity() {
     private var secondCard: ImageButton? = null
     private var handler = Handler()
 
+    // Initialising
+    private var level = 1
     private var startTime = 0L
     private var elapsedTime = 0L
     private var moveCount = 0
@@ -35,6 +39,11 @@ class Test2Activity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_test2)
+
+        var returnToMainButton = findViewById<Button>(R.id.mainmenureturn)
+        returnToMainButton.setOnClickListener {
+            val intent = Intent(this, MainPage::class.java)
+            startActivity(intent)}
 
         startButton = findViewById(R.id.start_button)
         cardGrid = findViewById(R.id.card_grid)
@@ -44,6 +53,7 @@ class Test2Activity : AppCompatActivity() {
         startButton.setOnClickListener {
             startGame()
             startTime = System.currentTimeMillis()
+            //your system time to calculate time difference
             handler.post(updateStopwatch)
             startButton.isEnabled = false
         }
@@ -51,7 +61,6 @@ class Test2Activity : AppCompatActivity() {
 
     private fun startGame() {
         startButton.isEnabled = false
-
         updateMoveCounter()
         setupCards(level)
         showCardsForThreeSeconds()
@@ -59,6 +68,7 @@ class Test2Activity : AppCompatActivity() {
 
     private fun setupCards(level: Int) {
         cardGrid.removeAllViews()
+        // remove all child views from the ViewGroup (stackoverflow,2013)
         cards.clear()
         revealedCards.clear()
 
@@ -72,8 +82,9 @@ class Test2Activity : AppCompatActivity() {
         val screenWidth = resources.displayMetrics.widthPixels
         val screenHeight = resources.displayMetrics.heightPixels
 
-        var numColumns = 0
 
+        // different number of columns based on levels so all cards are visible
+        var numColumns = 0
         if (cards.size <= 8) {
             numColumns = 2
         } else if (cards.size <= 14) {
@@ -81,7 +92,6 @@ class Test2Activity : AppCompatActivity() {
         } else {
             numColumns = 4
         }
-
         val numRows = (cards.size + numColumns - 1) / numColumns
 
         cardGrid.columnCount = numColumns
@@ -102,14 +112,15 @@ class Test2Activity : AppCompatActivity() {
         }
         val cardSize = minOf(cardWidth, cardHeight)
 
+        //
+
         for (i in 0 until cards.size) {
             val cardButton = ImageButton(this).apply {
                 layoutParams = GridLayout.LayoutParams().apply {
                     width = cardSize
                     height = cardSize
                     //setGravity(Gravity.CENTER_HORIZONTAL)
-                    setMargins(0, 2, 0, 2)
-
+                    setMargins(0, 2, 0, 2) // distance between each element
                 }
                 scaleType = ImageView.ScaleType.CENTER_CROP
                 setImageResource(R.drawable.back_of_card)
@@ -159,7 +170,7 @@ class Test2Activity : AppCompatActivity() {
                     level++
                     startGame()
                 } else {
-                    showGameOverDialog("Congrats!! You completed all the levels, go to menu to check your score?")
+                    showGameOverDialog("Congrats!! You completed all the levels ")
                 }
             }
         } else {
@@ -208,3 +219,8 @@ class Test2Activity : AppCompatActivity() {
         }
     }
 }
+/*
+Bibliography :
+https://developer.android.com/reference/android/os/Handler
+https://stackoverflow.com/questions/11952598/whats-difference-between-removeallviews-and-removeallviewsinlayout
+ */

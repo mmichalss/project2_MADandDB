@@ -21,6 +21,9 @@
         android:theme="@style/Theme.Project2"
         tools:targetApi="31">
         <activity
+            android:name=".app.test3.Test3ExplainingActivity"
+            android:exported="false" />
+        <activity
             android:name=".app.StatsActivity"
             android:exported="false" />
         <activity
@@ -38,25 +41,28 @@
         <activity
             android:name=".app.MainPage"
             android:exported="true" />
-
         <activity
             android:name=".app.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".app.Register"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <action android:name="android.speech.RecognitionService" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:host="androidium.org" android:scheme="http" />
+
+                <data
+                    android:host="androidium.org"
+                    android:scheme="http" />
             </intent-filter>
         </activity>
         <activity
@@ -71,9 +77,13 @@
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <action android:name="android.speech.RecognitionService" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:host="androidium.org" android:scheme="http" />
+
+                <data
+                    android:host="androidium.org"
+                    android:scheme="http" />
             </intent-filter>
         </activity>
     </application>
