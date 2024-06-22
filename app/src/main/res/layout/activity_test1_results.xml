@@ -1,10 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".app.Test1ResultsActivity">
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:padding="16dp">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:id="@+id/GreatJobTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/great_job"
+        android:textSize="50sp"
+        android:textStyle="bold"
+        android:textColor="#008000"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="40dp"/>
+
+    <TextView
+        android:id="@+id/YourScoreTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/your_score"
+        android:textSize="30sp"
+        android:layout_marginBottom="20dp"/>
+
+    <TextView
+    android:id="@+id/timeSpent"
+    android:layout_width="110dp"
+    android:layout_height="110dp"
+    android:gravity="fill"
+        android:autoSizeTextType="uniform"
+    android:background="#FF9800"
+    android:text="@string/time_spent"
+    android:textColor="#FFFFFF"
+    android:layout_marginBottom="25dp"/>
+
+    <TextView
+        android:id="@+id/percentageCorrect"
+        android:layout_width="110dp"
+        android:layout_height="110dp"
+        android:gravity="center"
+        android:background="#4CAF50"
+        android:text="@string/percentage_correct"
+        android:autoSizeTextType="uniform"
+        android:textColor="#FFFFFF"
+        android:layout_marginBottom="25dp"/>
+
+    <TextView
+        android:id="@+id/result"
+        android:layout_width="110dp"
+        android:layout_height="110dp"
+        android:gravity="center"
+        android:autoSizeTextType="uniform"
+        android:background="#2196F3"
+        android:text="@string/result"
+        android:textColor="#FFFFFF"/>
+
+
+    <LinearLayout
+        android:id="@+id/buttonBar"
+        style="?android:attr/buttonBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="50dp"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/tryAgainBTN"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/try_again"
+            android:textSize="20sp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/try_again_button" />
+
+        <Button
+            android:id="@+id/statsBTN"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/your_stats"
+            android:textSize="20sp"
+            android:background="@drawable/your_stats_button" />
+
+    </LinearLayout>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/go_home"
+        android:textSize="30sp"
+        android:layout_marginTop="0dp"
+        android:background="@drawable/your_stats_button"
+        android:id="@+id/goHomeBTN"/>
+
+</LinearLayout>

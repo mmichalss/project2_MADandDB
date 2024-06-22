@@ -7,11 +7,8 @@ import org.bson.types.ObjectId
 
 
 data class GetUserDto (
-    @BsonId
-    val id: ObjectId = ObjectId(),
-    @BsonProperty("name")
-    val name: String = "",
-    @BsonProperty("password")
+    var id: String = "",
+    val username: String = "",
     val password: String = ""
 ){
 }

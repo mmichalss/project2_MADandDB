@@ -2,4 +2,18 @@
     <string name="app_name">project2</string>
     <string name="test1_title">IMAGE RECOGNITION TEST</string>
     <string name="start">START</string>
+    <string name="instructionTitle">INSTRUCTION</string>
+    <string name="instructionDescription">
+        You will see a picture which will
+        represent <b>an object</b> with which you interact on daily basis.
+        After seeing the picture, you will have to <b>click microphone</b> button and say the name of the object.
+    </string>
+    <string name="great_job">Great Job!</string>
+    <string name="your_score">Your Score:</string>
+    <string name="time_spent">Time Spent</string>
+    <string name="percentage_correct">Percentage Correct</string>
+    <string name="result">Result</string>
+    <string name="try_again">TRY AGAIN</string>
+    <string name="your_stats">YOUR STATS</string>
+    <string name="go_home">HOME</string>
 </resources>

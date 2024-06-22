@@ -15,24 +15,26 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.example.project2.DB_management.DB_operations.UserOperations
-import com.example.project2.DB_management.dto.user.CreateUserDto
+import com.example.project2.DB_management.DbClient
 import com.example.project2.R
 import java.util.Locale
 import kotlin.random.Random
 
 class Test1Activity : AppCompatActivity() {
-    private var speechRecognizer: SpeechRecognizer? = null
-    private var micButton: ImageView? = null
-    private var pictureIMGV: ImageView? = null
-    private var voiceInput: String? = ""
-    private var voiceTV: TextView? = null
-    private var resultTV: TextView? = null
+    private var layoutOpenTime: Long = 0
+    private var timeElapsed: Long = 0
+    private lateinit var speechRecognizer: SpeechRecognizer
+    private lateinit var micButton: ImageView
+    private lateinit var pictureIMGV: ImageView
+    private lateinit var voiceInput: String
+    private lateinit var voiceTV: TextView
+    private lateinit var resultTV: TextView
     private val pictures = arrayOf(R.drawable.pen, R.drawable.table)
     private val answers = arrayOf("pen", "table")
     private var answerInitial = ""
     private var picturesIndexes = pictures.indices.toList().toTypedArray()
     private val result: MutableList<Int> = mutableListOf()
+
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,6 +47,7 @@ class Test1Activity : AppCompatActivity() {
         } else {
 
             pictureIMGV = findViewById(R.id.pictureIMGV)
+            pictureIMGV.setBackgroundResource(R.drawable.rounded_corners)
 
             changePicture()
 
@@ -59,14 +62,12 @@ class Test1Activity : AppCompatActivity() {
 
     @SuppressLint("ClickableViewAccessibility")
     private fun speechRecognition() {
-        val speechRecognizerIntent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
-        speechRecognizerIntent.putExtra(
-            RecognizerIntent.EXTRA_LANGUAGE_MODEL,
-            RecognizerIntent.LANGUAGE_MODEL_FREE_FORM
-        )
-        speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "en-US")
+        val speechRecognizerIntent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
+            putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
+            putExtra(RecognizerIntent.EXTRA_LANGUAGE, "en-US")
+        }
 
-        speechRecognizer!!.setRecognitionListener(object : RecognitionListener {
+        speechRecognizer.setRecognitionListener(object : RecognitionListener {
             override fun onReadyForSpeech(params: Bundle?) {}
 
             override fun onBeginningOfSpeech() {
@@ -82,13 +83,13 @@ class Test1Activity : AppCompatActivity() {
             override fun onError(error: Int) {}
 
             override fun onResults(results: Bundle?) {
-                micButton!!.setImageResource(R.drawable.baseline_mic_off)
-                val data = results!!.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
-                voiceInput = data.toString()
-                voiceTV!!.text = voiceInput
-                checkTheAnswer(data!!)
-                resultTV!!.text = result.toString()
-                changePicture()
+                micButton.setImageResource(R.drawable.baseline_mic_off)
+                results?.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)?.let { data ->
+                    voiceTV.text = data.toString()
+                    checkTheAnswer(data)
+                    resultTV.text = result.toString()
+                    changePicture()
+                }
             }
 
             override fun onPartialResults(partialResults: Bundle?) {}
@@ -97,23 +98,30 @@ class Test1Activity : AppCompatActivity() {
 
         })
 
-        micButton!!.setOnTouchListener { view, motionEvent ->
-            if (motionEvent.action == MotionEvent.ACTION_UP) {
-                speechRecognizer!!.stopListening()
+            micButton.setOnTouchListener { _, motionEvent ->
+                when (motionEvent.action) {
+                    MotionEvent.ACTION_UP -> speechRecognizer.stopListening()
+                    MotionEvent.ACTION_DOWN -> {
+                        micButton.setImageResource(R.drawable.baseline_mic)
+                        speechRecognizer.startListening(speechRecognizerIntent)
+                    }
+                }
+                false
             }
-            if (motionEvent.action == MotionEvent.ACTION_DOWN) {
-                micButton!!.setImageResource(R.drawable.baseline_mic)
-                speechRecognizer!!.startListening(
-                    speechRecognizerIntent
-                )
-            }
-            false
-        }
+    }
+    override fun onStart() {
+        super.onStart()
+        // Start measuring time in onStart, as the layout is visible
+        layoutOpenTime = System.currentTimeMillis()
+    }
+    override fun onStop() {
+        super.onStop()
+        timeElapsed = System.currentTimeMillis() - layoutOpenTime
     }
 
     override fun onDestroy(){
         super.onDestroy()
-        speechRecognizer!!.destroy()
+        speechRecognizer.destroy()
     }
 
     private fun checkPermissions() {
@@ -139,19 +147,19 @@ class Test1Activity : AppCompatActivity() {
         const val RecordAudioRequestCode = 1
     }
 
-    private fun changePicture (){
-        if (picturesIndexes.isNotEmpty()){
-            val random = Random.nextInt(picturesIndexes.size)
-            answerInitial = answers[picturesIndexes[random]]
-            pictureIMGV!!.setImageResource(pictures[picturesIndexes[random]])
-            picturesIndexes = removeElement(picturesIndexes, random)
-        }
-        else {
+    private fun changePicture() {
+        if (picturesIndexes.isNotEmpty()) {
+            val randomIndex = Random.nextInt(picturesIndexes.size)
+            answerInitial = answers[picturesIndexes[randomIndex]]
+            pictureIMGV.setImageResource(pictures[picturesIndexes[randomIndex]])
+            picturesIndexes =
+                picturesIndexes.filterIndexed { index, _ -> index != randomIndex }.toTypedArray()
+        } else {
             goToTest1ResultsActivity()
+
         }
     }
-
-    private fun removeElement(arr: Array<Int>, element: Int): Array<Int> {
+            private fun removeElement(arr: Array<Int>, element: Int): Array<Int> {
         return arr.filter { it != element }.toTypedArray()
     }
 
@@ -167,6 +175,7 @@ class Test1Activity : AppCompatActivity() {
     }
     private fun goToTest1ResultsActivity(){
         val intent = Intent(this, Test1ResultsActivity::class.java)
+        intent.putExtra("timeSpent", timeElapsed)
         startActivity(intent)
     }
 }
