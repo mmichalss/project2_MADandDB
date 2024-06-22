@@ -87,7 +87,15 @@ class Test3Activity : AppCompatActivity() {
                     rowSpec = GridLayout.spec(GridLayout.UNDEFINED, 1f)
                     setMargins(4, 4, 4, 4)
                 }
-                text = randomNumberGenerator().toString()
+
+                var divisor = randomNumberGenerator() +1
+
+
+                if(i % divisor == 0){
+                    text = desiredNum.toString()
+                }else{
+                text = randomNumberGenerator().toString()}
+
                 // its a little confusing but we set it to text but then need it as an Int when handlingNumberClick
                 gravity = android.view.Gravity.CENTER
                 setOnClickListener { view ->
@@ -96,10 +104,12 @@ class Test3Activity : AppCompatActivity() {
             }
             numGrid.addView(textView)
         }
+
     }
     private fun handleNumberClick(clickedNumber: Int, textView: TextView) {
         if (clickedNumber == desiredNum) {
             textView.setBackgroundColor(getResources().getColor(R.color.green))
+            textView.isClickable = false
             foundNumbers++
             if (foundNumbers == numbersToFind) {
                 showGameOverDialog("Congrats!! You found all the missing numbers ")
