@@ -1,4 +1,4 @@
-package com.example.project2.app
+package com.example.project2.app.test1
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -15,14 +15,12 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.example.project2.DB_management.DbClient
 import com.example.project2.R
-import java.util.Locale
 import kotlin.random.Random
 
 class Test1Activity : AppCompatActivity() {
     private var layoutOpenTime: Long = 0
-    private var timeElapsed: Long = 0
+    private var  totalTimeElapsed: Long = 0
     private lateinit var speechRecognizer: SpeechRecognizer
     private lateinit var micButton: ImageView
     private lateinit var pictureIMGV: ImageView
@@ -34,6 +32,7 @@ class Test1Activity : AppCompatActivity() {
     private var answerInitial = ""
     private var picturesIndexes = pictures.indices.toList().toTypedArray()
     private val result: MutableList<Int> = mutableListOf()
+    private var finalResult: Float = 0f
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -111,12 +110,12 @@ class Test1Activity : AppCompatActivity() {
     }
     override fun onStart() {
         super.onStart()
-        // Start measuring time in onStart, as the layout is visible
         layoutOpenTime = System.currentTimeMillis()
     }
-    override fun onStop() {
-        super.onStop()
-        timeElapsed = System.currentTimeMillis() - layoutOpenTime
+    override fun onPause() {
+        super.onPause()
+        val timeElapsed = System.currentTimeMillis() - layoutOpenTime
+        totalTimeElapsed += timeElapsed
     }
 
     override fun onDestroy(){
@@ -155,6 +154,7 @@ class Test1Activity : AppCompatActivity() {
             picturesIndexes =
                 picturesIndexes.filterIndexed { index, _ -> index != randomIndex }.toTypedArray()
         } else {
+            finalResult = result.sum().toFloat() / answers.size
             goToTest1ResultsActivity()
 
         }
@@ -175,7 +175,8 @@ class Test1Activity : AppCompatActivity() {
     }
     private fun goToTest1ResultsActivity(){
         val intent = Intent(this, Test1ResultsActivity::class.java)
-        intent.putExtra("timeSpent", timeElapsed)
+        intent.putExtra("result", finalResult)
+        intent.putExtra("timeSpent", totalTimeElapsed)
         startActivity(intent)
     }
 }

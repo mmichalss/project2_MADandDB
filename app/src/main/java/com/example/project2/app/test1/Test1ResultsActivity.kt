@@ -1,5 +1,6 @@
-package com.example.project2.app
+package com.example.project2.app.test1
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.animation.AnimationUtils
@@ -7,19 +8,34 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import com.example.project2.DB_management.common_types.ResultValue
 import com.example.project2.R
+import com.example.project2.app.MainPage
+import com.example.project2.app.StatsActivity
 
 class Test1ResultsActivity : AppCompatActivity() {
     var timeSpent: Long = 0
+    var resultRatio: Float = 0f
+    var result: ResultValue = ResultValue.NONE
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_test1_results)
 
 
-        val timeSpent = intent.getLongExtra("timeSpent", 0)
+        timeSpent = intent.getLongExtra("timeSpent", 0)
+        resultRatio = intent.getFloatExtra("result", 0f)
+
+        if (resultRatio >= 0.8) {
+            result = ResultValue.NONE
+        } else if (resultRatio >= 0.6) {
+            result = ResultValue.SMALL
+        } else if (resultRatio >= 0.4) {
+            result = ResultValue.MEDIUM
+        } else {
+            result = ResultValue.HIGH
+        }
 
 
         val slideInAnimation = AnimationUtils.loadAnimation(this, R.anim.slide_in)
@@ -29,8 +45,11 @@ class Test1ResultsActivity : AppCompatActivity() {
         val textView1 = findViewById<TextView>(R.id.GreatJobTV)
         val textView2 = findViewById<TextView>(R.id.YourScoreTV)
         val textView3 = findViewById<TextView>(R.id.timeSpent)
+        textView3.text = "${timeSpent}s"
         val textView4 = findViewById<TextView>(R.id.percentageCorrect)
+        textView4.text = "${resultRatio * 100}%"
         val textView5 = findViewById<TextView>(R.id.result)
+        textView5.text = result.toString()
 
         val button1 = findViewById<Button>(R.id.tryAgainBTN)
         val button2 = findViewById<Button>(R.id.statsBTN)

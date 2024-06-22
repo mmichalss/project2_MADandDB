@@ -1,10 +1,8 @@
-package com.example.project2
+package com.example.project2.app.test2
 
 import android.app.AlertDialog
 import android.os.Bundle
 import android.os.Handler
-import android.view.Gravity
-import android.view.View
 import android.widget.Button
 import android.widget.GridLayout
 import android.widget.ImageButton
