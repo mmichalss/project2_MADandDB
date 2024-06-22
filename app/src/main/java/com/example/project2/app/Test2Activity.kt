@@ -3,12 +3,13 @@ package com.example.project2
 import android.app.AlertDialog
 import android.os.Bundle
 import android.os.Handler
+import android.view.Gravity
 import android.view.View
-import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.Button
 import android.widget.GridLayout
 import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.project2.R
 
@@ -16,6 +17,8 @@ class Test2Activity : AppCompatActivity() {
 
     private lateinit var startButton: Button
     private lateinit var cardGrid: GridLayout
+    private lateinit var stopwatchText: TextView
+    private lateinit var moveCounterText: TextView
     private var level = 1
     private var cards: MutableList<Int> = mutableListOf()
     private var revealedCards: MutableList<ImageButton> = mutableListOf()
@@ -27,20 +30,31 @@ class Test2Activity : AppCompatActivity() {
     private var secondCard: ImageButton? = null
     private var handler = Handler()
 
+    private var startTime = 0L
+    private var elapsedTime = 0L
+    private var moveCount = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_test2)
 
         startButton = findViewById(R.id.start_button)
         cardGrid = findViewById(R.id.card_grid)
+        stopwatchText = findViewById(R.id.textTime)
+        moveCounterText = findViewById(R.id.textMoves)
 
         startButton.setOnClickListener {
             startGame()
+            startTime = System.currentTimeMillis()
+            handler.post(updateStopwatch)
+            startButton.isEnabled = false
         }
     }
 
     private fun startGame() {
-        startButton.visibility = View.GONE
+        startButton.isEnabled = false
+
+        updateMoveCounter()
         setupCards(level)
         showCardsForThreeSeconds()
     }
@@ -62,11 +76,11 @@ class Test2Activity : AppCompatActivity() {
 
         var numColumns = 0
 
-        if(cards.size <= 8) {
+        if (cards.size <= 8) {
             numColumns = 2
-        }else if(cards.size <=16) {
+        } else if (cards.size <= 14) {
             numColumns = 3
-        }else{
+        } else {
             numColumns = 4
         }
 
@@ -78,11 +92,14 @@ class Test2Activity : AppCompatActivity() {
         var cardWidth = 0
         var cardHeight = 0
 
-        if(cards.size < 9) {
+        if (cards.size <= 6) {
             cardWidth = screenWidth / numColumns - 100
-            cardHeight = screenHeight / numRows - 50
+            cardHeight = screenHeight / numRows - 60
+        } else if(cards.size <=8){
+            cardWidth = screenWidth / numColumns - 100
+            cardHeight = screenHeight / numRows - 140
         } else {
-            cardWidth = screenWidth / numColumns - 50
+            cardWidth = screenWidth / numColumns - 60
             cardHeight = screenHeight / numRows - 10
         }
         val cardSize = minOf(cardWidth, cardHeight)
@@ -92,7 +109,9 @@ class Test2Activity : AppCompatActivity() {
                 layoutParams = GridLayout.LayoutParams().apply {
                     width = cardSize
                     height = cardSize
+                    //setGravity(Gravity.CENTER_HORIZONTAL)
                     setMargins(0, 2, 0, 2)
+
                 }
                 scaleType = ImageView.ScaleType.CENTER_CROP
                 setImageResource(R.drawable.back_of_card)
@@ -104,7 +123,6 @@ class Test2Activity : AppCompatActivity() {
             revealedCards.add(cardButton)
         }
     }
-
 
     private fun showCardsForThreeSeconds() {
         for (i in 0 until cards.size) {
@@ -124,8 +142,14 @@ class Test2Activity : AppCompatActivity() {
         } else if (secondCard == null && card != firstCard) {
             secondCard = card
             card.setImageResource(imageResId)
+            moveCount++
+            updateMoveCounter()
             checkForMatch()
         }
+    }
+
+    private fun updateMoveCounter() {
+        moveCounterText.text = "Moves: $moveCount"
     }
 
     private fun checkForMatch() {
@@ -133,11 +157,11 @@ class Test2Activity : AppCompatActivity() {
             firstCard = null
             secondCard = null
             if (revealedCards.all { it.drawable.constantState != getDrawable(R.drawable.back_of_card)?.constantState }) {
-                if (level < 9) {
+                if (level < 3) {
                     level++
                     startGame()
                 } else {
-                    showGameOverDialog("Congrats!! You completed all the  levels, go to menu to check your score? ")
+                    showGameOverDialog("Congrats!! You completed all the levels, go to menu to check your score?")
                 }
             }
         } else {
@@ -151,13 +175,38 @@ class Test2Activity : AppCompatActivity() {
     }
 
     private fun showGameOverDialog(message: String) {
+        val seconds = (elapsedTime / 1000).toInt() % 60
+        val minutes = (elapsedTime / 1000 / 60).toInt() % 60
+        val hours = (elapsedTime / 1000 / 60 / 60).toInt()
+
+        val timeString = String.format("%02d:%02d:%02d", hours, minutes, seconds)
         AlertDialog.Builder(this)
             .setTitle("Game Over")
-            .setMessage(message)
+
+
+            .setMessage("$message \n Moves: $moveCount \n Time: $timeString ")
+
+
+            //we could send to firebase even from here, with the moveCount and timeString
             .setPositiveButton("OK") { dialog, _ ->
                 dialog.dismiss()
                 finish()
             }
             .show()
+    }
+
+    private val updateStopwatch = object : Runnable {
+        override fun run() {
+            val currentTime = System.currentTimeMillis()
+            elapsedTime = currentTime - startTime
+            val seconds = (elapsedTime / 1000).toInt() % 60
+            val minutes = (elapsedTime / 1000 / 60).toInt() % 60
+            val hours = (elapsedTime / 1000 / 60 / 60).toInt()
+
+            val timeString = String.format("%02d:%02d:%02d", hours, minutes, seconds)
+
+            stopwatchText.text = timeString
+            handler.postDelayed(this, 1000)
+        }
     }
 }

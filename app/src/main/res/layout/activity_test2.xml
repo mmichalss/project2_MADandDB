@@ -8,9 +8,9 @@
         android:id="@+id/start_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Start"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp"/>
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="5dp"
+        android:text="Start" />
 
     <GridLayout
         android:id="@+id/card_grid"
@@ -23,4 +23,22 @@
         android:orientation="horizontal"
         android:padding="16dp">
     </GridLayout>
+
+    <TextView
+        android:id="@+id/textTime"
+        android:layout_width="253dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="33dp"
+        android:layout_toEndOf="@+id/start_button"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/textMoves"
+        android:layout_width="253dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="33dp"
+        android:layout_marginTop="30dp"
+        android:layout_toEndOf="@+id/start_button"
+        android:text="TextView" />
 </RelativeLayout>

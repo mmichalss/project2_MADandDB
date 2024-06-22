@@ -56,6 +56,8 @@ android {
 dependencies {
 
     implementation(libs.transport.runtime)
+    implementation(libs.firebase.auth.ktx)
+    implementation(libs.firebase.firestore.ktx)
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.3")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
