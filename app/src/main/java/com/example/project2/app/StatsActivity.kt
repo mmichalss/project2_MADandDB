@@ -28,11 +28,7 @@ class StatsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_stats)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.right, systemBars.bottom, systemBars.top)
-            insets
-        }
+
 
         val recyclerViewType1 = findViewById<RecyclerView>(R.id.recycler_view_type1)
         val recyclerViewType2 = findViewById<RecyclerView>(R.id.recycler_view_type2)
