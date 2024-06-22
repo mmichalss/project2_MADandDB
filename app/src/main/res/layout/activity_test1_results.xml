@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:gravity="center_horizontal"
     android:padding="16dp">
@@ -49,7 +50,7 @@
 
     <TextView
         android:id="@+id/result"
-        android:layout_width="110dp"
+        android:layout_width="150dp"
         android:layout_height="110dp"
         android:gravity="center"
         android:autoSizeTextType="uniform"
@@ -60,7 +61,6 @@
 
     <LinearLayout
         android:id="@+id/buttonBar"
-        style="?android:attr/buttonBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -74,8 +74,9 @@
             android:layout_height="wrap_content"
             android:text="@string/try_again"
             android:textSize="20sp"
+            android:textColor="@color/white"
             android:layout_marginEnd="20dp"
-            android:background="@drawable/try_again_button" />
+            android:backgroundTint="#FF0000"/>
 
         <Button
             android:id="@+id/statsBTN"
@@ -83,18 +84,23 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/your_stats"
-            android:textSize="20sp"
-            android:background="@drawable/your_stats_button" />
+            android:textColor="@color/white"
+            android:textSize="25sp"
+            android:backgroundTint="#214a16"
+            app:cornerRadius="23dp"/>
 
     </LinearLayout>
 
     <Button
+        android:id="@+id/goHomeBTN"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/go_home"
-        android:textSize="30sp"
+        android:textColor="@color/white"
+        android:textSize="40sp"
         android:layout_marginTop="0dp"
-        android:background="@drawable/your_stats_button"
-        android:id="@+id/goHomeBTN"/>
+        android:backgroundTint="#214a16"
+        app:cornerRadius="23dp"
+       />
 
 </LinearLayout>

@@ -4,8 +4,6 @@ import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.text.TextUtils
-import android.util.Log
-import android.view.View
 import com.example.project2.R
 import android.widget.Button
 import kotlinx.coroutines.launch
@@ -21,11 +19,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.withContext
-import java.sql.Connection
-import java.text.SimpleDateFormat
-import kotlin.math.log
-import java.util.Date as UtilDate
 
 class Register : ComponentActivity() {
 
@@ -47,7 +40,7 @@ class Register : ComponentActivity() {
 
         val logInButton =findViewById<TextView>(R.id.logInText)
         logInButton.setOnClickListener {
-            val intent = Intent(applicationContext, MainActivity::class.java)
+            val intent = Intent(applicationContext, LoginActivity::class.java)
             startActivity(intent)
         }
 

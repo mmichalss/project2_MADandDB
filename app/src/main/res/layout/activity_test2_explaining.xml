@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".app.Test2ExplainingActivity">
+    tools:context=".app.test2.Test2ExplainingActivity">
 
     <TextView
         android:id="@+id/textView"

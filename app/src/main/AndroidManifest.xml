@@ -10,6 +10,7 @@
     </queries>
 
     <application
+        android:name=".app.MyApp"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -26,20 +27,20 @@
             android:name=".app.DbTesting"
             android:exported="true" />
         <activity
-            android:name=".app.Test2ExplainingActivity"
+            android:name=".app.test2.Test2ExplainingActivity"
             android:exported="false" />
         <activity
-            android:name=".app.Test3Activity"
+            android:name=".app.test3.Test3Activity"
             android:exported="false" />
         <activity
-            android:name=".Test2Activity"
+            android:name=".app.test2.Test2Activity"
             android:exported="false" />
         <activity
             android:name=".app.MainPage"
             android:exported="true" />
 
         <activity
-            android:name=".app.MainActivity"
+            android:name=".app.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -59,13 +60,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".app.Test1ResultsActivity"
+            android:name=".app.test1.Test1ResultsActivity"
             android:exported="true" />
         <activity
-            android:name=".app.Test1HomeActivity"
+            android:name=".app.test1.Test1HomeActivity"
             android:exported="true" />
         <activity
-            android:name=".app.Test1Activity"
+            android:name=".app.test1.Test1Activity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />

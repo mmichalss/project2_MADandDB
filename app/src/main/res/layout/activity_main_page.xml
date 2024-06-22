@@ -50,7 +50,7 @@
     </LinearLayout>
 
     <ImageView
-        android:id="@+id/imageView5"
+        android:id="@+id/imageView1"
         android:layout_width="314dp"
         android:layout_height="1431dp"
         app:layout_constraintBottom_toBottomOf="parent"

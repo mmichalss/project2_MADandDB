@@ -1,4 +1,4 @@
-package com.example.project2.app
+package com.example.project2.app.test1
 
 import android.content.Intent
 import android.os.Bundle

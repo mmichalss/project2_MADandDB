@@ -3,7 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
-
+    alias(libs.plugins.googleServicesPlugin)
 }
 
 android {
@@ -54,7 +54,8 @@ android {
 }
 
 dependencies {
-
+    implementation(libs.google.services)
+    implementation(libs.firebase.core)
     implementation(libs.transport.runtime)
     implementation(libs.firebase.auth.ktx)
     implementation(libs.firebase.firestore.ktx)
@@ -68,17 +69,8 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
-    implementation(libs.realmBase)
-    implementation(libs.realmSync)
 
     implementation("org.jetbrains.kotlin:kotlin-stdlib:1.8.0")
-    // Kotlin coroutine dependency
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactive:1.6.4")
-
-    // MongoDB Kotlin driver dependency
-    implementation("org.mongodb:mongodb-driver-kotlin-coroutine:4.10.1")
-    implementation("io.projectreactor:reactor-core:3.4.15")
 
     implementation("org.apache.logging.log4j:log4j-slf4j-impl:2.17.1")
 
