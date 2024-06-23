@@ -11,8 +11,13 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.project2.DB_management.DbClient
+import com.example.project2.DB_management.common_types.ResultValue
+import com.example.project2.DB_management.common_types.TestType
+import com.example.project2.DB_management.dto.result.CreateResultDto
 import com.example.project2.R
 import com.example.project2.app.MainPage
+import com.google.firebase.auth.FirebaseAuth
 import kotlin.random.Random
 
 class Test3Activity : AppCompatActivity() {
@@ -120,6 +125,8 @@ class Test3Activity : AppCompatActivity() {
         }
     }
     private fun showGameOverDialog(message: String) {
+
+        createResult()
         val seconds = (elapsedTime / 1000).toInt() % 60
         val minutes = (elapsedTime / 1000 / 60).toInt() % 60
         val hours = (elapsedTime / 1000 / 60 / 60).toInt()
@@ -157,6 +164,20 @@ class Test3Activity : AppCompatActivity() {
         return randomNum
     }
 
+    private fun createResult(){
+        val result = if (moveCount > 3) ResultValue.HIGH
+        else if (moveCount > 2) ResultValue.MEDIUM
+        else if (moveCount > 1) ResultValue.SMALL
+        else ResultValue.NONE
+
+        val user = FirebaseAuth.getInstance().currentUser
+        val userId = user?.email
+        if (userId != null) {
+            val createResult = CreateResultDto(TestType.TEST3, userId, result, (elapsedTime/1000).toInt())
+            val dbClient = DbClient()
+            dbClient.addResult(createResult)
+        }
+    }
 
 
 }

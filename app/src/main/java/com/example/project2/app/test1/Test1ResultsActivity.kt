@@ -8,10 +8,14 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import com.example.project2.DB_management.DbClient
 import com.example.project2.DB_management.common_types.ResultValue
+import com.example.project2.DB_management.common_types.TestType
+import com.example.project2.DB_management.dto.result.CreateResultDto
 import com.example.project2.R
 import com.example.project2.app.MainPage
 import com.example.project2.app.StatsActivity
+import com.google.firebase.auth.FirebaseAuth
 
 class Test1ResultsActivity : AppCompatActivity() {
     var timeSpent: Long = 0
@@ -37,7 +41,7 @@ class Test1ResultsActivity : AppCompatActivity() {
             result = ResultValue.HIGH
         }
 
-
+        createResult()
         val slideInAnimation = AnimationUtils.loadAnimation(this, R.anim.slide_in)
         val fadeInAnimation = AnimationUtils.loadAnimation(this, R.anim.fade_in)
 
@@ -47,7 +51,7 @@ class Test1ResultsActivity : AppCompatActivity() {
         val textView3 = findViewById<TextView>(R.id.timeSpent)
         textView3.text = "${timeSpent}s"
         val textView4 = findViewById<TextView>(R.id.percentageCorrect)
-        textView4.text = "${resultRatio * 100}%"
+        textView4.text = String.format("%.2f%%", resultRatio * 100)
         val textView5 = findViewById<TextView>(R.id.result)
         textView5.text = result.toString()
 
@@ -93,5 +97,15 @@ class Test1ResultsActivity : AppCompatActivity() {
     private fun tryAgain(){
         val intent = Intent(this, Test1Activity::class.java)
         startActivity(intent)
+    }
+
+    private fun createResult(){
+        val user = FirebaseAuth.getInstance().currentUser
+        val userId = user?.email
+        if (userId != null) {
+            val result = CreateResultDto(TestType.TEST1, userId, result, timeSpent.toInt())
+            val dbClient = DbClient()
+            dbClient.addResult(result)
+        }
     }
 }

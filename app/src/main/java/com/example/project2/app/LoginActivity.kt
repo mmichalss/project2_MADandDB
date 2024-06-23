@@ -87,7 +87,7 @@ class LoginActivity : Activity() {
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         GlobalScope.launch(Dispatchers.Main) {
-                            val intent = Intent(this@LoginActivity, Test1HomeActivity::class.java)
+                            val intent = Intent(this@LoginActivity, MainPage::class.java)
                             startActivity(intent)
                             finish()
                         }

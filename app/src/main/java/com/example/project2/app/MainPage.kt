@@ -7,6 +7,7 @@ import android.widget.LinearLayout
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.example.project2.R
+import com.example.project2.app.test1.Test1HomeActivity
 import com.example.project2.app.test2.Test2ExplainingActivity
 import com.example.project2.app.test3.Test3ExplainingActivity
 
@@ -15,6 +16,12 @@ class MainPage : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main_page)
+
+        val buttonTest1 = findViewById<LinearLayout>(R.id.button1)
+        buttonTest1.setOnClickListener {
+            val intent = Intent(this, Test1HomeActivity::class.java)
+            startActivity(intent)
+        }
 
         var buttonTest2 = findViewById<LinearLayout>(R.id.button2)
         //its not actually a button since I added the images and turned it to a linear view
@@ -26,6 +33,12 @@ class MainPage : AppCompatActivity() {
         var buttonTest3 = findViewById<LinearLayout>(R.id.button3)
         buttonTest3.setOnClickListener {
             val intent = Intent(this, Test3ExplainingActivity::class.java)
+            startActivity(intent)
+        }
+
+        val buttonStats = findViewById<Button>(R.id.button4)
+        buttonStats.setOnClickListener {
+            val intent = Intent(this, StatsActivity::class.java)
             startActivity(intent)
         }
 

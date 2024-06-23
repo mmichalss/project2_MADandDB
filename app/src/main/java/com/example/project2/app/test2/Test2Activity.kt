@@ -11,8 +11,13 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.example.project2.DB_management.DbClient
+import com.example.project2.DB_management.common_types.ResultValue
+import com.example.project2.DB_management.common_types.TestType
+import com.example.project2.DB_management.dto.result.CreateResultDto
 import com.example.project2.R
 import com.example.project2.app.MainPage
+import com.google.firebase.auth.FirebaseAuth
 
 class Test2Activity : AppCompatActivity() {
     private lateinit var startButton: Button
@@ -184,6 +189,8 @@ class Test2Activity : AppCompatActivity() {
     }
 
     private fun showGameOverDialog(message: String) {
+
+        createResult()
         val seconds = (elapsedTime / 1000).toInt() % 60
         val minutes = (elapsedTime / 1000 / 60).toInt() % 60
         val hours = (elapsedTime / 1000 / 60 / 60).toInt()
@@ -216,6 +223,21 @@ class Test2Activity : AppCompatActivity() {
 
             stopwatchText.text = timeString
             handler.postDelayed(this, 1000)
+        }
+    }
+
+    private fun createResult(){
+        val result = if (moveCount > 20) ResultValue.HIGH
+        else if (moveCount > 15) ResultValue.MEDIUM
+        else if (moveCount > 9) ResultValue.SMALL
+        else ResultValue.NONE
+
+        val user = FirebaseAuth.getInstance().currentUser
+        val userId = user?.email
+        if (userId != null) {
+            val createResult = CreateResultDto(TestType.TEST2, userId, result, (elapsedTime/1000).toInt())
+            val dbClient = DbClient()
+            dbClient.addResult(createResult)
         }
     }
 }

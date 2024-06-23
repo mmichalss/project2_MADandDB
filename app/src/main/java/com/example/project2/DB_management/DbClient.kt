@@ -2,6 +2,8 @@ package com.example.project2.DB_management
 
 import android.content.ContentValues.TAG
 import android.util.Log
+import com.example.project2.DB_management.common_types.ResultValue
+import com.example.project2.DB_management.common_types.TestType
 import com.example.project2.DB_management.dto.result.CreateResultDto
 import com.example.project2.DB_management.dto.result.GetResultDto
 import com.example.project2.DB_management.dto.test.CreateTestDto
@@ -61,15 +63,15 @@ class DbClient() {
     }
 
 
-    fun getLoggedUser(): GetUserDto?{
-        val user = FirebaseAuth.getInstance().currentUser
-        return if (user != null) {
-            // User is signed in
-            GetUserDto(user.uid.toString(), user.displayName.toString(), user.email.toString())
-        } else {
+   fun getLoggedUser(): GetUserDto? {
+    val user = FirebaseAuth.getInstance().currentUser
+    return if (user != null) {
+        // User is signed in
+        GetUserDto(user.uid, user.email!!, "")
+    } else {
         null
-        }
     }
+}
 
     fun addTest(test: CreateTestDto){
         db.collection("tests")
@@ -115,29 +117,39 @@ class DbClient() {
     }
 
     fun getResultsByUserId(userId: String): Task<List<GetResultDto?>> {
-        val db = FirebaseFirestore.getInstance()
-        val taskCompletionSource = TaskCompletionSource<List<GetResultDto?>>()
+    val db = FirebaseFirestore.getInstance()
+    val taskCompletionSource = TaskCompletionSource<List<GetResultDto?>>()
 
-        db.collection("results")
-            .whereEqualTo("userId", userId)
-            .get()
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    val resultList = mutableListOf<GetResultDto?>()
-                    for (document in task.result) {
-                        val result = document.toObject(GetResultDto::class.java)
-                        result.id = document.id
-                        resultList.add(result)
+    Log.e("Test", "Getting results for user ID: $userId")
+
+    db.collection("results")
+        .whereEqualTo("userId", userId)
+        .get()
+        .addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val resultList = mutableListOf<GetResultDto?>()
+                for (document in task.result) {
+                    Log.d("Test", "Document data: ${document.data}")
+                    val result = document.let {
+                        GetResultDto(
+                            id = it.id,
+                            resultValue = ResultValue.fromString(it.getString("resultValue") ?: "NONE"),
+                            testId = TestType.fromString(it.getString("testId") ?: "TEST1"),
+                            timeSpent = it.getLong("timeSpent")?.toInt() ?: 0,
+                            userId = it.getString("userId") ?: ""
+                        )
                     }
-                    taskCompletionSource.setResult(resultList)
-                } else {
-                    Log.w(TAG, "Error getting documents.", task.exception)
-                    taskCompletionSource.setException(task.exception ?: Exception("Unknown error occurred"))
+                    resultList.add(result)
                 }
+                taskCompletionSource.setResult(resultList)
+            } else {
+                Log.w("Test", "Error getting documents.", task.exception)
+                taskCompletionSource.setException(task.exception ?: Exception("Unknown error occurred"))
             }
+        }
 
-        return taskCompletionSource.task
-    }
+    return taskCompletionSource.task
+}
 
 
 }

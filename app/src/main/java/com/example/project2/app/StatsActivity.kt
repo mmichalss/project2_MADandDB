@@ -1,5 +1,6 @@
 package com.example.project2.app
 
+import android.annotation.SuppressLint
 import android.content.ContentValues.TAG
 import android.os.Bundle
 import android.util.Log
@@ -23,12 +24,12 @@ class StatsActivity : AppCompatActivity() {
     private lateinit var adapterType2: TestResultAdapter
     private lateinit var adapterType3: TestResultAdapter
     private val dbClient = DbClient()
+    private lateinit var tv: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_stats)
-
 
         val recyclerViewType1 = findViewById<RecyclerView>(R.id.recycler_view_type1)
         val recyclerViewType2 = findViewById<RecyclerView>(R.id.recycler_view_type2)
@@ -49,8 +50,10 @@ class StatsActivity : AppCompatActivity() {
         val user = dbClient.getLoggedUser()
 
         user?.let {
-            getResultsByUserId(it.id)
+            getResultsByUserId(it.username)
         }
+
+        Log.e("Test", "$user")
     }
 
     private fun getResultsByUserId(userId: String) {
@@ -92,6 +95,7 @@ class TestResultAdapter(private var testResults: List<GetResultDto?>) : Recycler
 
     override fun getItemCount() = testResults.size
 
+    @SuppressLint("NotifyDataSetChanged")
     fun updateData(newTestResults: List<GetResultDto?>) {
         testResults = newTestResults
         notifyDataSetChanged()

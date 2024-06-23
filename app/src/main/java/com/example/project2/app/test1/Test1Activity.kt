@@ -5,9 +5,12 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.speech.RecognitionListener
 import android.speech.RecognizerIntent
 import android.speech.SpeechRecognizer
+import android.util.Log
 import android.view.MotionEvent
 import android.widget.ImageView
 import android.widget.TextView
@@ -27,8 +30,8 @@ class Test1Activity : AppCompatActivity() {
     private lateinit var voiceInput: String
     private lateinit var voiceTV: TextView
     private lateinit var resultTV: TextView
-    private val pictures = arrayOf(R.drawable.pen, R.drawable.table)
-    private val answers = arrayOf("pen", "table")
+    private val pictures = arrayOf(R.drawable.pen, R.drawable.table, R.drawable.pencil, R.drawable.chair, R.drawable.clock, R.drawable.swing, R.drawable.cup)
+    private val answers = arrayOf("pen", "table", "pencil", "chair", "clock", "swing", "cup")
     private var answerInitial = ""
     private var picturesIndexes = pictures.indices.toList().toTypedArray()
     private val result: MutableList<Int> = mutableListOf()
@@ -39,6 +42,9 @@ class Test1Activity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_test1)
 
+        onStart()
+        onStop()
+
         if (ContextCompat.checkSelfPermission
                 (this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED
         ) {
@@ -48,9 +54,9 @@ class Test1Activity : AppCompatActivity() {
             pictureIMGV = findViewById(R.id.pictureIMGV)
             pictureIMGV.setBackgroundResource(R.drawable.rounded_corners)
 
+            micButton = findViewById(R.id.micBTN)
             changePicture()
 
-            micButton = findViewById(R.id.micBTN)
             voiceTV = findViewById(R.id.voiceTV)
             resultTV = findViewById(R.id.resultTV)
             speechRecognizer = SpeechRecognizer.createSpeechRecognizer(this)
@@ -112,6 +118,12 @@ class Test1Activity : AppCompatActivity() {
         super.onStart()
         layoutOpenTime = System.currentTimeMillis()
     }
+    override fun onStop() {
+    super.onStop()
+    val timeElapsed = System.currentTimeMillis() - layoutOpenTime
+    totalTimeElapsed += timeElapsed
+        Log.e("Time Elapsed", "$totalTimeElapsed")
+}
     override fun onPause() {
         super.onPause()
         val timeElapsed = System.currentTimeMillis() - layoutOpenTime
@@ -147,18 +159,25 @@ class Test1Activity : AppCompatActivity() {
     }
 
     private fun changePicture() {
-        if (picturesIndexes.isNotEmpty()) {
-            val randomIndex = Random.nextInt(picturesIndexes.size)
-            answerInitial = answers[picturesIndexes[randomIndex]]
-            pictureIMGV.setImageResource(pictures[picturesIndexes[randomIndex]])
-            picturesIndexes =
-                picturesIndexes.filterIndexed { index, _ -> index != randomIndex }.toTypedArray()
-        } else {
-            finalResult = result.sum().toFloat() / answers.size
-            goToTest1ResultsActivity()
+    if (picturesIndexes.isNotEmpty()) {
+        val randomIndex = Random.nextInt(picturesIndexes.size)
+        answerInitial = answers[picturesIndexes[randomIndex]]
+        pictureIMGV.setImageResource(pictures[picturesIndexes[randomIndex]])
+        picturesIndexes =
+            picturesIndexes.filterIndexed { index, _ -> index != randomIndex }.toTypedArray()
 
-        }
+        // Disable the micButton immediately when the picture changes
+        micButton.isEnabled = false
+
+        // Enable the micButton after 1.5 seconds
+        Handler(Looper.getMainLooper()).postDelayed({
+            micButton.isEnabled = true
+        }, 1500)
+    } else {
+        finalResult = result.sum().toFloat() / answers.size
+        goToTest1ResultsActivity()
     }
+}
             private fun removeElement(arr: Array<Int>, element: Int): Array<Int> {
         return arr.filter { it != element }.toTypedArray()
     }

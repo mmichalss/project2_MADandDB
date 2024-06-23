@@ -12,6 +12,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.core.content.ContextCompat
+import com.example.project2.DB_management.dto.user.CreateUserDto
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.AuthResult
@@ -23,7 +24,6 @@ import kotlinx.coroutines.GlobalScope
 class Register : ComponentActivity() {
 
     private lateinit var inputEmail: EditText
-    private lateinit var inputName: EditText
     private lateinit var inputPassword: EditText
     private lateinit var inputRepPass: EditText
 
@@ -60,11 +60,8 @@ class Register : ComponentActivity() {
         registerButton.isEnabled = true
 
         inputEmail = findViewById(R.id.editTextEmailAddress)
-        inputName = findViewById(R.id.editTextName)
         inputPassword = findViewById(R.id.editTextPassword)
         inputRepPass = findViewById(R.id.editTextRePassword)
-        inputLastName = findViewById(R.id.editTextLastName)
-        inputDate= findViewById(R.id.editTextDate)
 
         registerButton.setOnClickListener{
             validateRegisterDetails()
@@ -84,10 +81,6 @@ class Register : ComponentActivity() {
         return when{
             TextUtils.isEmpty(inputEmail.text.toString().trim{ it <= ' '}) -> {
                 showErrorSnackBar("Please enter your email",true)
-                false
-            }
-            TextUtils.isEmpty(inputName.text.toString().trim{ it <= ' '}) -> {
-                showErrorSnackBar("Please enter your name",true)
                 false
             }
             TextUtils.isEmpty(inputPassword.text.toString().trim{ it <= ' '}) -> {
@@ -165,7 +158,6 @@ class Register : ComponentActivity() {
         if (validateRegisterDetails()) {
             val login: String = inputEmail.text.toString().trim() { it <= ' ' }
             val password: String = inputPassword.text.toString().trim() { it <= ' ' }
-            val name: String = inputName.text.toString().trim() { it <= ' ' }
 
             FirebaseAuth.getInstance().createUserWithEmailAndPassword(login, password)
                 .addOnCompleteListener(
@@ -178,12 +170,7 @@ class Register : ComponentActivity() {
                                 false
                             )
                             val email = FirebaseAuth.getInstance().currentUser?.email.toString()
-                            val user = User(
-                                email,
-                                name,
-                                true,
-                                login,
-                                true
+                            val user = CreateUserDto(email, password
                             )
                             FireStoreClass().registerUserFS(this@Register, user)
 
