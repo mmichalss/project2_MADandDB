@@ -19,7 +19,9 @@ import com.example.project2.R
 import com.example.project2.app.MainPage
 import com.google.firebase.auth.FirebaseAuth
 import kotlin.random.Random
-
+/**
+ * This is the activity for Test3. It generates a grid of numbers and the user has to find the numbers that are multiples of a given number.
+ */
 class Test3Activity : AppCompatActivity() {
     private lateinit var startButton: Button
     private lateinit var numGrid: GridLayout
@@ -32,6 +34,10 @@ class Test3Activity : AppCompatActivity() {
     private var numbersToFind = 0
     private var foundNumbers = 0
 
+    /**
+     * Called when the activity is starting. This is where most initialization should go.
+     * @param savedInstanceState If the activity is being re-initialized after previously being shut down then this Bundle contains the data it most recently supplied in onSaveInstanceState(Bundle).
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -60,6 +66,10 @@ class Test3Activity : AppCompatActivity() {
 
     }
     var desiredNum = randomNumberGenerator()
+
+    /**
+     * This function starts the game by generating a number and filling the grid with numbers.
+     */
     private fun startGame() {
         startButton.isEnabled = false
         generatedNumberText.text=desiredNum.toString()
@@ -68,6 +78,11 @@ class Test3Activity : AppCompatActivity() {
         numbersToFind = howMany(desiredNum)
 
     }
+    /**
+     * This function counts how many times a number appears in the grid.
+     * @param number The number to count.
+     * @return The number of times the number appears in the grid.
+     */
     private fun howMany(number: Int): Int {
         var count = 0
         for (i in 0 until numGrid.childCount) {
@@ -80,7 +95,9 @@ class Test3Activity : AppCompatActivity() {
         }
         return count
     }
-
+    /**
+     * This function fills the grid with numbers and sets the click listener for each number.
+     */
     private fun fillGridWithNumbers(){
         numGrid.removeAllViews()
         for (i in 0 until 25){
@@ -111,6 +128,11 @@ class Test3Activity : AppCompatActivity() {
         }
 
     }
+    /**
+     * This function handles the click of a number in the grid.
+     * @param clickedNumber The number that was clicked.
+     * @param textView The TextView that was clicked.
+     */
     private fun handleNumberClick(clickedNumber: Int, textView: TextView) {
         if (clickedNumber == desiredNum) {
             textView.setBackgroundColor(getResources().getColor(R.color.green))
@@ -124,6 +146,10 @@ class Test3Activity : AppCompatActivity() {
             moveCount++
         }
     }
+    /**
+     * This function shows the game over dialog.
+     * @param message The message to show in the dialog.
+     */
     private fun showGameOverDialog(message: String) {
 
         createResult()
@@ -144,7 +170,9 @@ class Test3Activity : AppCompatActivity() {
             .show()
     }
 
-
+    /**
+     * This function updates the stopwatch.
+     */
     private val updateStopwatch = object : Runnable {
         override fun run() {
             val currentTime = System.currentTimeMillis()
@@ -159,11 +187,18 @@ class Test3Activity : AppCompatActivity() {
             handler.postDelayed(this, 1000)
         }
     }
+    /**
+     * This function generates a random number.
+     * @return The random number.
+     */
     private fun randomNumberGenerator(): Int {
         val randomNum = Random.nextInt(0, 10)
         return randomNum
     }
 
+    /**
+     * This function creates a result object and sends it to the database.
+     */
     private fun createResult(){
         val result = if (moveCount > 3) ResultValue.HIGH
         else if (moveCount > 2) ResultValue.MEDIUM

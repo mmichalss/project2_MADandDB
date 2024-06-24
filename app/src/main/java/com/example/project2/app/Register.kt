@@ -44,18 +44,6 @@ class Register : ComponentActivity() {
             startActivity(intent)
         }
 
-
-//        val testConnectionButton: Button = findViewById(R.id.buttonTestConnection)
-//        testConnectionButton.setOnClickListener {
-//
-//        }
-
-
-
-
-
-
-
         val registerButton: Button = findViewById(R.id.buttonSignUp)
         registerButton.isEnabled = true
 

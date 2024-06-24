@@ -18,7 +18,10 @@ import com.example.project2.DB_management.dto.result.CreateResultDto
 import com.example.project2.R
 import com.example.project2.app.MainPage
 import com.google.firebase.auth.FirebaseAuth
-
+/**
+ * This is the activity for Test2. It sets up a memory card game with different levels.
+ * The game tracks the time elapsed and the number of moves made by the user.
+ */
 class Test2Activity : AppCompatActivity() {
     private lateinit var startButton: Button
     private lateinit var cardGrid: GridLayout
@@ -41,6 +44,10 @@ class Test2Activity : AppCompatActivity() {
     private var elapsedTime = 0L
     private var moveCount = 0
 
+    /**
+     * Called when the activity is starting. This is where most initialization should go.
+     * @param savedInstanceState If the activity is being re-initialized after previously being shut down then this Bundle contains the data it most recently supplied in onSaveInstanceState(Bundle).
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_test2)
@@ -63,14 +70,19 @@ class Test2Activity : AppCompatActivity() {
             startButton.isEnabled = false
         }
     }
-
+    /**
+     * This function starts the game by setting up the cards and showing them for three seconds.
+     */
     private fun startGame() {
         startButton.isEnabled = false
         updateMoveCounter()
         setupCards(level)
         showCardsForThreeSeconds()
     }
-
+    /**
+     * This function sets up the cards for the game based on the level.
+     * @param level The level of the game.
+     */
     private fun setupCards(level: Int) {
         cardGrid.removeAllViews()
         // remove all child views from the ViewGroup (stackoverflow,2013)
@@ -138,6 +150,9 @@ class Test2Activity : AppCompatActivity() {
         }
     }
 
+    /**
+     * This function shows the cards for three seconds before flipping them back.
+     */
     private fun showCardsForThreeSeconds() {
         for (i in 0 until cards.size) {
             revealedCards[i].setImageResource(cards[i])
@@ -148,7 +163,11 @@ class Test2Activity : AppCompatActivity() {
             }
         }, 3000)
     }
-
+    /**
+     * This function reveals the card when clicked.
+     * @param card The card to be revealed.
+     * @param imageResId The image resource id of the card.
+     */
     private fun revealCard(card: ImageButton, imageResId: Int) {
         if (firstCard == null) {
             firstCard = card
@@ -161,11 +180,15 @@ class Test2Activity : AppCompatActivity() {
             checkForMatch()
         }
     }
-
+    /**
+     * This function updates the move counter.
+     */
     private fun updateMoveCounter() {
         moveCounterText.text = "Moves: $moveCount"
     }
-
+    /**
+     * This function checks if the two revealed cards match.
+     */
     private fun checkForMatch() {
         if (firstCard?.drawable?.constantState == secondCard?.drawable?.constantState) {
             firstCard = null
@@ -187,7 +210,10 @@ class Test2Activity : AppCompatActivity() {
             }, 1000)
         }
     }
-
+    /**
+     * This function shows the game over dialog.
+     * @param message The message to be displayed in the dialog.
+     */
     private fun showGameOverDialog(message: String) {
 
         createResult()
@@ -210,7 +236,9 @@ class Test2Activity : AppCompatActivity() {
             }
             .show()
     }
-
+    /**
+     * This function updates the stopwatch.
+     */
     private val updateStopwatch = object : Runnable {
         override fun run() {
             val currentTime = System.currentTimeMillis()
@@ -225,7 +253,9 @@ class Test2Activity : AppCompatActivity() {
             handler.postDelayed(this, 1000)
         }
     }
-
+    /**
+     * This function creates the result of the game.
+     */
     private fun createResult(){
         val result = if (moveCount > 20) ResultValue.HIGH
         else if (moveCount > 15) ResultValue.MEDIUM

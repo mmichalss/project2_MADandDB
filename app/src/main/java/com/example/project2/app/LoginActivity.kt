@@ -21,6 +21,9 @@ import com.google.firebase.auth.auth
 import com.google.firebase.Firebase
 import com.google.firebase.FirebaseApp
 
+/**
+ * This is the login activity. It handles the login process for the user.
+ */
 class LoginActivity : Activity() {
 
     private var inputEmail: EditText? = null
@@ -28,7 +31,10 @@ class LoginActivity : Activity() {
     private var loginButton: Button? = null
     private lateinit var auth: FirebaseAuth
 
-
+    /**
+     * Called when the activity is starting. This is where most initialization should go.
+     * @param savedInstanceState If the activity is being re-initialized after previously being shut down then this Bundle contains the data it most recently supplied in onSaveInstanceState(Bundle).
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         FirebaseApp.initializeApp(this)
@@ -62,6 +68,10 @@ class LoginActivity : Activity() {
         }
     }
 
+    /**
+     * This function validates the login details entered by the user.
+     * @return true if the login details are valid, false otherwise.
+     */
     private fun validateLoginDetails(): Boolean {
         return when {
             TextUtils.isEmpty(inputEmail?.text.toString().trim { it <= ' ' }) -> {
@@ -78,6 +88,9 @@ class LoginActivity : Activity() {
         }
     }
 
+    /**
+     * This function logs in a registered user.
+     */
     private fun logInRegisteredUser() {
         if (validateLoginDetails()) {
             val email = inputEmail?.text.toString().trim()
@@ -97,7 +110,11 @@ class LoginActivity : Activity() {
                 }
         }
     }
-
+    /**
+     * This function shows a snackbar with an error message.
+     * @param message The message to show in the snackbar.
+     * @param errorMessage true if the message is an error message, false otherwise.
+     */
     private fun showErrorSnackBar(message: String, errorMessage: Boolean) {
         val snackbar = Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG)
         val snackbarView = snackbar.view

@@ -19,6 +19,9 @@ import com.example.project2.DB_management.common_types.TestType
 import com.example.project2.DB_management.dto.result.GetResultDto
 import com.example.project2.R
 
+/**
+ * This is the activity for the statistics page. It displays the user's test results.
+ */
 class StatsActivity : AppCompatActivity() {
     private lateinit var adapterType1: TestResultAdapter
     private lateinit var adapterType2: TestResultAdapter
@@ -26,6 +29,10 @@ class StatsActivity : AppCompatActivity() {
     private val dbClient = DbClient()
     private lateinit var tv: TextView
 
+    /**
+     * Called when the activity is starting. This is where most initialization should go.
+     * @param savedInstanceState If the activity is being re-initialized after previously being shut down then this Bundle contains the data it most recently supplied in onSaveInstanceState(Bundle).
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -56,6 +63,10 @@ class StatsActivity : AppCompatActivity() {
         Log.e("Test", "$user")
     }
 
+    /**
+     * Get the test results for the user.
+     * @param userId The user's ID.
+     */
     private fun getResultsByUserId(userId: String) {
         dbClient.getResultsByUserId(userId).addOnCompleteListener { task ->
             if (task.isSuccessful) {
@@ -73,6 +84,10 @@ class StatsActivity : AppCompatActivity() {
     }
 }
 
+/**
+ * Adapter for the test results.
+ * @param testResults The list of test results.
+ */
 class TestResultAdapter(private var testResults: List<GetResultDto?>) : RecyclerView.Adapter<TestResultAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -81,11 +96,22 @@ class TestResultAdapter(private var testResults: List<GetResultDto?>) : Recycler
         val timeSpent: TextView = view.findViewById(R.id.time_spent)
     }
 
+    /**
+     * Called when RecyclerView needs a new [ViewHolder] of the given type to represent an item.
+     * @param parent The ViewGroup into which the new View will be added after it is bound to an adapter position.
+     * @param viewType The view type of the new View.
+     * @return A new ViewHolder that holds a View of the given view type.
+     */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.stats_item, parent, false)
         return ViewHolder(view)
     }
 
+    /**
+     * Called by RecyclerView to display the data at the specified position.
+     * @param holder The ViewHolder which should be updated to represent the contents of the item at the given position in the data set.
+     * @param position The position of the item within the adapter's data set.
+     */
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val testResult = testResults[position]
         holder.testType.text = testResult?.testId.toString()
@@ -93,8 +119,16 @@ class TestResultAdapter(private var testResults: List<GetResultDto?>) : Recycler
         holder.timeSpent.text = testResult?.timeSpent.toString()
     }
 
+    /**
+     * Returns the total number of items in the data set held by the adapter.
+     * @return The total number of items in this adapter.
+     */
     override fun getItemCount() = testResults.size
 
+    /**
+     * Update the data in the adapter.
+     * @param newTestResults The new list of test results.
+     */
     @SuppressLint("NotifyDataSetChanged")
     fun updateData(newTestResults: List<GetResultDto?>) {
         testResults = newTestResults

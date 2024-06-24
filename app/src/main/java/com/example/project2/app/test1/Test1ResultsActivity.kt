@@ -16,11 +16,18 @@ import com.example.project2.R
 import com.example.project2.app.MainPage
 import com.example.project2.app.StatsActivity
 import com.google.firebase.auth.FirebaseAuth
-
+/**
+ * This is the results activity for Test1. It calculates the result based on the time spent and result ratio,
+ * and displays the result to the user. It also provides options to try again, view stats, or go back to the main page.
+ */
 class Test1ResultsActivity : AppCompatActivity() {
     var timeSpent: Long = 0
     var resultRatio: Float = 0f
     var result: ResultValue = ResultValue.NONE
+    /**
+     * Called when the activity is starting. This is where most initialization should go.
+     * @param savedInstanceState If the activity is being re-initialized after previously being shut down then this Bundle contains the data it most recently supplied in onSaveInstanceState(Bundle).
+     */
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -90,22 +97,31 @@ class Test1ResultsActivity : AppCompatActivity() {
         }
 
     }
-
+    /**
+     * This function navigates to the MainPage when the "Go Home" button is clicked.
+     */
     private fun goToMainPage(){
         val intent = Intent(this, MainPage::class.java)
         startActivity(intent)
     }
-
+    /**
+     * This function navigates to the StatsActivity when the "Stats" button is clicked.
+     */
     private fun goToStatsPage(){
         val intent = Intent(this, StatsActivity::class.java)
         startActivity(intent)
     }
 
+    /**
+     * This function navigates back to the Test1Activity when the "Try Again" button is clicked.
+     */
     private fun tryAgain(){
         val intent = Intent(this, Test1Activity::class.java)
         startActivity(intent)
     }
-
+    /**
+     * This function creates a new result entry in the database with the calculated result.
+     */
     private fun createResult(){
         val user = FirebaseAuth.getInstance().currentUser
         val userId = user?.email

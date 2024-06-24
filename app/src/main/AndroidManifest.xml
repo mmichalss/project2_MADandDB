@@ -27,9 +27,6 @@
             android:name=".app.StatsActivity"
             android:exported="false" />
         <activity
-            android:name=".app.DbTesting"
-            android:exported="true" />
-        <activity
             android:name=".app.test2.Test2ExplainingActivity"
             android:exported="false" />
         <activity

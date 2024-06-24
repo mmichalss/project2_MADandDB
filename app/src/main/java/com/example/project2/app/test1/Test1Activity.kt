@@ -39,6 +39,9 @@ class Test1Activity : AppCompatActivity() {
     private var finalResult: Float = 0f
 
     @SuppressLint("ClickableViewAccessibility")
+    /**
+    * This function is called when the activity is first created
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_test1)
@@ -66,6 +69,9 @@ class Test1Activity : AppCompatActivity() {
         }
     }
 
+    /**
+     * This function is called when the activity is destroyed
+     */
     @SuppressLint("ClickableViewAccessibility")
     private fun speechRecognition() {
         val speechRecognizerIntent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
@@ -115,23 +121,38 @@ class Test1Activity : AppCompatActivity() {
                 false
             }
     }
+
+    /**
+     * This function is called when the activity is started
+     */
     override fun onStart() {
         super.onStart()
         layoutOpenTime = System.currentTimeMillis()
     }
+
+    /**
+     * This function is called when the activity is stopped
+     */
     override fun onStop() {
     super.onStop()
     val timeElapsed = System.currentTimeMillis() - layoutOpenTime
-}
+} /**
+     * This function is called when the activity is paused
+     */
     override fun onPause() {
         super.onPause()
     }
-
+    /**
+     * This function is called when the activity is destroyed
+     */
     override fun onDestroy(){
         super.onDestroy()
         speechRecognizer.destroy()
     }
 
+    /**
+     * This function asks for RecordAudio permission
+     */
     private fun checkPermissions() {
         ActivityCompat.requestPermissions(
             this, arrayOf(Manifest.permission.RECORD_AUDIO),
@@ -140,6 +161,9 @@ class Test1Activity : AppCompatActivity() {
         )
     }
 
+    /**
+     * This function is called when the permission is granted
+     */
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -155,6 +179,9 @@ class Test1Activity : AppCompatActivity() {
         const val RecordAudioRequestCode = 1
     }
 
+    /**
+     * This function changes picture seen on a screen
+     */
     private fun changePicture() {
     if (picturesIndexes.isNotEmpty()) {
         val randomIndex = Random.nextInt(picturesIndexes.size)
@@ -179,6 +206,9 @@ class Test1Activity : AppCompatActivity() {
         return arr.filter { it != element }.toTypedArray()
     }
 
+    /**
+     * This function checks if the answer is correct
+     */
     private fun checkTheAnswer(results: ArrayList<String>): MutableList<Int> {
         results.forEach {
             if (it.contains(answerInitial)) {
@@ -189,6 +219,10 @@ class Test1Activity : AppCompatActivity() {
         result.add(0)
         return result
     }
+
+    /**
+     * This function goes to the Test1ResultsActivity
+     */
     private fun goToTest1ResultsActivity(){
         timeElapsed = System.currentTimeMillis() - layoutOpenTime
         totalTimeElapsed += timeElapsed
