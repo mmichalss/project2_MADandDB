@@ -50,7 +50,7 @@
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_marginTop="5dp"
-            android:src="@drawable/cards" />
+            android:src="@drawable/thinking" />
 
     </LinearLayout>
 
@@ -80,7 +80,7 @@
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_marginTop="5dp"
-            android:src="@drawable/thinking" />
+            android:src="@drawable/cards" />
     </LinearLayout>
 
     <LinearLayout

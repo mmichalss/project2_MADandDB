@@ -74,8 +74,15 @@ class Test1ResultsActivity : AppCompatActivity() {
         button1.setOnClickListener {
             tryAgain()
         }
-        button2.setOnClickListener {
-            goToStatsPage()
+
+        val user = FirebaseAuth.getInstance().currentUser
+        val userId = user?.email
+        if (userId != null) {
+            button2.setOnClickListener {
+                goToStatsPage()
+            }
+        } else {
+            button2.isEnabled = false
         }
         button3.setOnClickListener {
             goToMainPage()

@@ -24,6 +24,7 @@ import kotlin.random.Random
 class Test1Activity : AppCompatActivity() {
     private var layoutOpenTime: Long = 0
     private var  totalTimeElapsed: Long = 0
+    private var timeElapsed: Long = 0
     private lateinit var speechRecognizer: SpeechRecognizer
     private lateinit var micButton: ImageView
     private lateinit var pictureIMGV: ImageView
@@ -42,8 +43,8 @@ class Test1Activity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_test1)
 
-        onStart()
-        onStop()
+
+        layoutOpenTime = System.currentTimeMillis()
 
         if (ContextCompat.checkSelfPermission
                 (this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED
@@ -121,13 +122,9 @@ class Test1Activity : AppCompatActivity() {
     override fun onStop() {
     super.onStop()
     val timeElapsed = System.currentTimeMillis() - layoutOpenTime
-    totalTimeElapsed += timeElapsed
-        Log.e("Time Elapsed", "$totalTimeElapsed")
 }
     override fun onPause() {
         super.onPause()
-        val timeElapsed = System.currentTimeMillis() - layoutOpenTime
-        totalTimeElapsed += timeElapsed
     }
 
     override fun onDestroy(){
@@ -193,6 +190,10 @@ class Test1Activity : AppCompatActivity() {
         return result
     }
     private fun goToTest1ResultsActivity(){
+        timeElapsed = System.currentTimeMillis() - layoutOpenTime
+        totalTimeElapsed += timeElapsed
+        totalTimeElapsed += timeElapsed
+        Log.e("Time Elapsed", "$totalTimeElapsed")
         val intent = Intent(this, Test1ResultsActivity::class.java)
         intent.putExtra("result", finalResult)
         intent.putExtra("timeSpent", totalTimeElapsed)
