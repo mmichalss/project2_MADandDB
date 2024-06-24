@@ -5,7 +5,7 @@
     <string name="test3_title">FIND THE NUMBER TEST</string>
     <string name="test_type">TEST TYPE</string>
     <string name="retardness_level">DISABILITY LEVEL</string>
-    <string name="time_spent_cap">TIME SPENT</string>
+    <string name="time_spent_cap">TIME SPENT [s]</string>
     <string name="start">START</string>
     <string name="instructionTitle">INSTRUCTION</string>
     <string name="instructionDescription">

@@ -28,9 +28,6 @@ class Test1Activity : AppCompatActivity() {
     private lateinit var speechRecognizer: SpeechRecognizer
     private lateinit var micButton: ImageView
     private lateinit var pictureIMGV: ImageView
-    private lateinit var voiceInput: String
-    private lateinit var voiceTV: TextView
-    private lateinit var resultTV: TextView
     private val pictures = arrayOf(R.drawable.pen, R.drawable.table, R.drawable.pencil, R.drawable.chair, R.drawable.clock, R.drawable.swing, R.drawable.cup)
     private val answers = arrayOf("pen", "table", "pencil", "chair", "clock", "swing", "cup")
     private var answerInitial = ""
@@ -61,8 +58,6 @@ class Test1Activity : AppCompatActivity() {
             micButton = findViewById(R.id.micBTN)
             changePicture()
 
-            voiceTV = findViewById(R.id.voiceTV)
-            resultTV = findViewById(R.id.resultTV)
             speechRecognizer = SpeechRecognizer.createSpeechRecognizer(this)
 
             speechRecognition()
@@ -97,9 +92,7 @@ class Test1Activity : AppCompatActivity() {
             override fun onResults(results: Bundle?) {
                 micButton.setImageResource(R.drawable.baseline_mic_off)
                 results?.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)?.let { data ->
-                    voiceTV.text = data.toString()
                     checkTheAnswer(data)
-                    resultTV.text = result.toString()
                     changePicture()
                 }
             }
@@ -192,10 +185,12 @@ class Test1Activity : AppCompatActivity() {
 
         // Disable the micButton immediately when the picture changes
         micButton.isEnabled = false
-
+        micButton.setImageResource(R.drawable.baseline_mic_red)
         // Enable the micButton after 1.5 seconds
         Handler(Looper.getMainLooper()).postDelayed({
             micButton.isEnabled = true
+
+            micButton.setImageResource(R.drawable.baseline_mic_off)
         }, 1500)
     } else {
         finalResult = result.sum().toFloat() / answers.size

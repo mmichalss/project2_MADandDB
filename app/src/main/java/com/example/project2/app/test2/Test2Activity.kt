@@ -195,7 +195,7 @@ class Test2Activity : AppCompatActivity() {
             firstCard = null
             secondCard = null
             if (revealedCards.all { it.drawable.constantState != getDrawable(R.drawable.back_of_card)?.constantState }) {
-                if (level < 3) {
+                if (level < 9) {
                     level++
                     startGame()
                 } else {
@@ -258,9 +258,9 @@ class Test2Activity : AppCompatActivity() {
      * This function creates the result of the game.
      */
     private fun createResult(){
-        result = if (moveCount > 20) ResultValue.HIGH
-        else if (moveCount > 15) ResultValue.MEDIUM
-        else if (moveCount > 9) ResultValue.SMALL
+        result = if (moveCount > 160) ResultValue.HIGH
+        else if (moveCount > 120) ResultValue.MEDIUM
+        else if (moveCount > 110) ResultValue.SMALL
         else ResultValue.NONE
 
         val user = FirebaseAuth.getInstance().currentUser

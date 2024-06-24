@@ -22,6 +22,7 @@ import com.google.firebase.auth.FirebaseAuth
  */
 class Test1ResultsActivity : AppCompatActivity() {
     var timeSpent: Long = 0
+    var timeInSeconds: Long = 0
     var resultRatio: Float = 0f
     var result: ResultValue = ResultValue.NONE
     /**
@@ -48,7 +49,6 @@ class Test1ResultsActivity : AppCompatActivity() {
             result = ResultValue.HIGH
         }
 
-        createResult()
         val slideInAnimation = AnimationUtils.loadAnimation(this, R.anim.slide_in)
         val fadeInAnimation = AnimationUtils.loadAnimation(this, R.anim.fade_in)
 
@@ -56,11 +56,14 @@ class Test1ResultsActivity : AppCompatActivity() {
         val textView1 = findViewById<TextView>(R.id.GreatJobTV)
         val textView2 = findViewById<TextView>(R.id.YourScoreTV)
         val textView3 = findViewById<TextView>(R.id.timeSpent)
-        textView3.text = "${timeSpent}s"
+        timeInSeconds = timeSpent/1000
+        textView3.text = "${timeInSeconds}s"
         val textView4 = findViewById<TextView>(R.id.percentageCorrect)
         textView4.text = String.format("%.2f%%", resultRatio * 100)
         val textView5 = findViewById<TextView>(R.id.result)
         textView5.text = result.toString()
+        createResult()
+
 
         val button1 = findViewById<Button>(R.id.tryAgainBTN)
         val button2 = findViewById<Button>(R.id.statsBTN)
@@ -126,7 +129,7 @@ class Test1ResultsActivity : AppCompatActivity() {
         val user = FirebaseAuth.getInstance().currentUser
         val userId = user?.email
         if (userId != null) {
-            val result = CreateResultDto(TestType.TEST1, userId, result, timeSpent.toInt())
+            val result = CreateResultDto(TestType.TEST1, userId, result, timeInSeconds.toInt())
             val dbClient = DbClient()
             dbClient.addResult(result)
         }
