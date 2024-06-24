@@ -2,14 +2,18 @@ package com.example.project2.app
 
 import android.annotation.SuppressLint
 import android.content.ContentValues.TAG
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.startActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -61,6 +65,19 @@ class StatsActivity : AppCompatActivity() {
         }
 
         Log.e("Test", "$user")
+
+        val button = findViewById<Button>(R.id.goHomeBTN)
+        button.setOnClickListener {
+            goHome()
+        }
+    }
+
+    /**
+     * Navigate to the home page.
+     */
+    private fun goHome(){
+        val intent = Intent(this, MainPage::class.java)
+        startActivity(intent)
     }
 
     /**

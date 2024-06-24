@@ -43,6 +43,7 @@ class Test2Activity : AppCompatActivity() {
     private var startTime = 0L
     private var elapsedTime = 0L
     private var moveCount = 0
+    private var result = ResultValue.NONE
 
     /**
      * Called when the activity is starting. This is where most initialization should go.
@@ -226,7 +227,7 @@ class Test2Activity : AppCompatActivity() {
             .setTitle("Game Over")
 
 
-            .setMessage("$message \n Moves: $moveCount \n Time: $timeString ")
+            .setMessage("$message \n Moves: $moveCount \n Time: $timeString \n Result: $result")
 
 
             //we could send to firebase even from here, with the moveCount and timeString
@@ -257,7 +258,7 @@ class Test2Activity : AppCompatActivity() {
      * This function creates the result of the game.
      */
     private fun createResult(){
-        val result = if (moveCount > 20) ResultValue.HIGH
+        result = if (moveCount > 20) ResultValue.HIGH
         else if (moveCount > 15) ResultValue.MEDIUM
         else if (moveCount > 9) ResultValue.SMALL
         else ResultValue.NONE

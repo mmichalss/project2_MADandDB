@@ -33,6 +33,7 @@ class Test3Activity : AppCompatActivity() {
     private var moveCount = 0
     private var numbersToFind = 0
     private var foundNumbers = 0
+    private var result = ResultValue.NONE
 
     /**
      * Called when the activity is starting. This is where most initialization should go.
@@ -162,7 +163,7 @@ class Test3Activity : AppCompatActivity() {
             .setTitle("Game Over")
 
 
-            .setMessage("$message \n Wrong moves: $moveCount \n Time: $timeString ")
+            .setMessage("$message \n Wrong moves: $moveCount \n Time: $timeString \n Result: $result")
             .setPositiveButton("OK") { dialog, _ ->
                 dialog.dismiss()
                 finish()
@@ -200,7 +201,7 @@ class Test3Activity : AppCompatActivity() {
      * This function creates a result object and sends it to the database.
      */
     private fun createResult(){
-        val result = if (moveCount > 3) ResultValue.HIGH
+        result = if (moveCount > 3) ResultValue.HIGH
         else if (moveCount > 2) ResultValue.MEDIUM
         else if (moveCount > 1) ResultValue.SMALL
         else ResultValue.NONE
