@@ -28,7 +28,11 @@ class DbClient() {
         "born" to 1815
     )
 
-    // Add a new document with a generated ID
+    /**
+     * Adds a new user to the Firestore database.
+     *
+     * @param user The user data to be added.
+     */
     fun addUser(user: CreateUserDto) {
         db.collection("users")
             .add(user)
@@ -40,7 +44,12 @@ class DbClient() {
             }
     }
 
-
+    /**
+     * Retrieves a user from the Firestore database by their ID.
+     *
+     * @param id The ID of the user to retrieve.
+     * @return A Task that will be resolved with the user data or null if the user doesn't exist.
+     */
     fun getUser(id: String): Task<GetUserDto?> {
         return db.collection("users")
             .document(id)
@@ -63,6 +72,11 @@ class DbClient() {
     }
 
 
+    /**
+     * Retrieves the currently logged in user.
+     *
+     * @return The data of the logged in user or null if no user is logged in.
+     */
    fun getLoggedUser(): GetUserDto? {
     val user = FirebaseAuth.getInstance().currentUser
     return if (user != null) {
@@ -72,7 +86,11 @@ class DbClient() {
         null
     }
 }
-
+    /**
+     * Adds a new test to the Firestore database.
+     *
+     * @param test The test data to be added.
+     */
     fun addTest(test: CreateTestDto){
         db.collection("tests")
             .add(test)
@@ -84,6 +102,12 @@ class DbClient() {
             }
     }
 
+    /**
+     * Retrieves a test from the Firestore database by its ID.
+     *
+     * @param id The ID of the test to retrieve.
+     * @return A Task that will be resolved with the test data or null if the test doesn't exist.
+     */
     fun getTest(id: String): Task<GetTestDto?> {
         return db.collection("results")
             .document(id)
@@ -105,6 +129,11 @@ class DbClient() {
             }
     }
 
+    /**
+     * Adds a new result to the Firestore database.
+     *
+     * @param result The result data to be added.
+     */
     fun addResult(result: CreateResultDto){
         db.collection("results")
             .add(result)
@@ -116,6 +145,12 @@ class DbClient() {
             }
     }
 
+    /**
+     * Retrieves a result from the Firestore database by its ID.
+     *
+     * @param id The ID of the result to retrieve.
+     * @return A Task that will be resolved with the result data or null if the result doesn't exist.
+     */
     fun getResultsByUserId(userId: String): Task<List<GetResultDto?>> {
     val db = FirebaseFirestore.getInstance()
     val taskCompletionSource = TaskCompletionSource<List<GetResultDto?>>()
