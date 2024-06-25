@@ -63,7 +63,7 @@
     <Button
         android:id="@+id/mainmenureturn"
         android:layout_width="262dp"
-        android:layout_height="53dp"
+        android:layout_height="73dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentBottom="true"
