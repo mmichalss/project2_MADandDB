@@ -22,11 +22,13 @@
         android:id="@+id/logInText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:layout_marginBottom="40dp"
         android:backgroundTint="@android:color/black"
         android:clickable="true"
         android:gravity="center"
         android:text="Already have an account? Log in"
+        android:textSize="20sp"
         android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="@+id/textView4"
         app:layout_constraintEnd_toEndOf="parent"
@@ -37,8 +39,6 @@
         android:id="@+id/textView4"
         android:layout_width="0dp"
         android:layout_height="202dp"
-
-
         android:layout_marginStart="35dp"
         android:layout_marginEnd="35dp"
         android:layout_marginBottom="76dp"
@@ -110,9 +110,10 @@
 
     <Button
         android:id="@+id/buttonSignUp"
-        android:layout_width="134dp"
-        android:layout_height="63dp"
+        android:layout_width="150dp"
+        android:layout_height="80dp"
         android:backgroundTint="#214a16"
+        android:layout_marginBottom="20dp"
         android:text="Sign Up"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textColor="@color/white"
