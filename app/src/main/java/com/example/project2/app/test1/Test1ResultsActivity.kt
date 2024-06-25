@@ -39,11 +39,11 @@ class Test1ResultsActivity : AppCompatActivity() {
         timeSpent = intent.getLongExtra("timeSpent", 0)
         resultRatio = intent.getFloatExtra("result", 0f)
 
-        if (resultRatio >= 0.8) {
+        if (resultRatio >= 0.8 || timeSpent > 160000) {
             result = ResultValue.NONE
-        } else if (resultRatio >= 0.6) {
+        } else if (resultRatio >= 0.6 || timeSpent > 120000) {
             result = ResultValue.SMALL
-        } else if (resultRatio >= 0.4) {
+        } else if (resultRatio >= 0.4 || timeSpent > 100000) {
             result = ResultValue.MEDIUM
         } else {
             result = ResultValue.HIGH
